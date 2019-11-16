@@ -1,6 +1,7 @@
 import { TodoList as TodoListHook } from "./components/todo-hook";
 import { TodoList as TodoListLocal } from "./components/todo-mobx-local";
 import { TodoList as TodoListGlobal } from "./components/todo-mobx-global";
+import { Mouse } from "./components/mobx-vue3";
 import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
@@ -42,6 +43,7 @@ const App = () => {
         </Row>
       </div>
       <TodoListHook />
+      <Mouse />
     </div>
   );
 };
