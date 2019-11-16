@@ -1,8 +1,8 @@
-import { observable, computed, action } from "mobx";
+import { observable, computed, action, reaction } from "mobx";
 import { uuid } from "uuidv4";
 
 export class TodoModel {
-  id: string;
+  @observable id: string;
   @observable text: string;
   @observable done: boolean;
   @observable deleted!: boolean;
@@ -19,7 +19,7 @@ export class TodoModel {
       this.done = item.done;
     }
   }
-  toggleDone() {
+  @action toggleDone() {
     this.done = !this.done;
   }
 }
@@ -28,6 +28,13 @@ export class TodoStore {
   @observable todos: TodoModel[] = [];
   @action addTodo = (todo: Item) => {
     this.todos.push(new TodoModel(todo));
+  };
+  @action toggle = (id: string) => {
+    this.todos.forEach(x => {
+      if (x.id === id) {
+        x.toggleDone();
+      }
+    });
   };
   @action deleteTodo = (id: string) => {
     const updatedTodos = this.todos.filter(todo => todo.id !== id);
