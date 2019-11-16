@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { uuid } from "uuidv4";
 import { observer, useComputed } from "mobx-react-lite";
 import { storeContext } from "../../store/root";
-import { FILTERTYPE, filter, Todo, Filter, RichTodo } from "../../components/helpers";
+import { FILTERTYPE, filter, Filter, RichTodo } from "../../components/helpers";
 
 export const TodoList = observer(() => {
   const { todoStore } = useContext(storeContext);

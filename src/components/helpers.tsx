@@ -1,4 +1,5 @@
 import React from "react";
+import { observer } from "mobx-react";
 import { useAsync } from "react-use";
 import { fetchDetail } from "../service/todo";
 import { TodoModel } from "../store/todo.store";
@@ -44,7 +45,7 @@ export const Todo = ({
   );
 };
 
-export const RichTodo = ({ item }: { item: TodoModel }) => {
+export const RichTodo = observer(({ item }: { item: TodoModel }) => {
   const desc = useAsync<Description>(async () => {
     return fetchDetail(item.id);
   }, []);
@@ -63,7 +64,7 @@ export const RichTodo = ({ item }: { item: TodoModel }) => {
         : desc.value?.description}
     </TodoX>
   );
-};
+});
 
 export const Filter = ({
   type,

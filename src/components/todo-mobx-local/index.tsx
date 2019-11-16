@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { uuid } from "uuidv4";
 
 // import { TodoStore, TodoStore2, TodoStore3 } from "../../store/todo.store";
-import { TodoStore } from "../../store/todo2.store";
+import { TodoStore } from "../../store/todo.store";
 import { observer, useComputed, useLocalStore } from "mobx-react-lite";
 import {
   FILTERTYPE,
