@@ -5,6 +5,9 @@ import { fetchDetail, fetchList } from "../service/todo";
 import { uuid } from "uuidv4";
 import styled from "styled-components";
 const TodoX = styled.div<{ completed: boolean }>`
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 5px;
   text-decoration: ${p => (p.completed ? "line-through" : "none")};
 `;
 const FilterWrapper = styled.div`
