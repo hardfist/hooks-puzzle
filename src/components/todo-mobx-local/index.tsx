@@ -55,7 +55,7 @@ export const TodoList = observer(
           store.addTodo(text);
         }}
       >
-        <h1>todomvc mobx版</h1>
+        <h2>todomvc mobx local版</h2>
         <input value={text} onChange={e => updateText(e.target.value)}></input>
         <div>
           {loading && <div>loading....</div>}

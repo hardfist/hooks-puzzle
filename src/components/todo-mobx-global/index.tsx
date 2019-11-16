@@ -22,7 +22,7 @@ export const TodoList = observer(() => {
         });
       }}
     >
-      <h1>todomvc mobx版</h1>
+      <h2>todomvc mobx global版</h2>
       <input value={text} onChange={e => updateText(e.target.value)}></input>
       <div>
         {filteredList.map(x => (

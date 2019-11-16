@@ -112,7 +112,7 @@ export const TodoList = ({ initialTodos = [] }: { initialTodos?: Item[] }) => {
         });
       }}
     >
-      <h1>todomvc hook版 </h1>
+      <h2>todomvc hook版 </h2>
       <input value={text} onChange={e => updateText(e.target.value)}></input>
       <div>
         {loading && <div>loading....</div>}
