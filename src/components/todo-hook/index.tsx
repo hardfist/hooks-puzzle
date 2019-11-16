@@ -1,81 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { useImmer } from "use-immer";
-import { useMount, useAsync } from "react-use";
-import { fetchDetail, fetchList } from "../../service/todo";
+import { useAsync } from "react-use";
+import { fetchList } from "../../service/todo";
 import { uuid } from "uuidv4";
-import styled from "styled-components";
-const TodoX = styled.div<{ done: boolean }>`
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 5px;
-  text-decoration: ${p => (p.done ? "line-through" : "none")};
-`;
-const FilterWrapper = styled.div`
-  display: flex;
-`;
-const FilterItem = styled.div<{ selected: boolean }>`
-  border: 1px solid transparent;
-  border-color: ${p => (p.selected ? "red" : "transparent")};
-`;
-export const enum FILTERTYPE {
-  ALL = "ALL",
-  ACTIVE = "ACTIVE",
-  done = "done"
-}
-export const Todo = ({
-  item,
-  onClick
-}: {
-  item: Item;
-  onClick: (id: string) => void;
-}) => {
-  const desc = useAsync<Description>(async () => {
-    return fetchDetail(item.id);
-  }, []);
-  return (
-    <TodoX onClick={() => onClick(item.id)} done={item.done}>
-      {item.text} :{" "}
-      {desc.loading
-        ? "loading ...."
-        : desc.error
-        ? "error"
-        : desc.value?.description}
-    </TodoX>
-  );
-};
-export const Filter = ({
-  type,
-  handleSetType
-}: {
-  type: FILTERTYPE;
-  handleSetType: (x: FILTERTYPE) => void;
-}) => {
-  const Item = (filtertype: FILTERTYPE) => (
-    <FilterItem
-      selected={filtertype === type}
-      onClick={() => handleSetType(filtertype)}
-    >
-      {filtertype}
-    </FilterItem>
-  );
-  return (
-    <FilterWrapper>
-      {Item(FILTERTYPE.ALL)}
-      {Item(FILTERTYPE.done)}
-      {Item(FILTERTYPE.ACTIVE)}
-    </FilterWrapper>
-  );
-};
-export const filter = (filterType: FILTERTYPE) => (x: Item) => {
-  switch (filterType) {
-    case FILTERTYPE.ALL:
-      return true;
-    case FILTERTYPE.ACTIVE:
-      return !x.done;
-    case FILTERTYPE.done:
-      return x.done;
-  }
-};
+import { FILTERTYPE, filter, Filter, Todo } from "../../components/helpers";
+
 export const TodoList = ({ initialTodos = [] }: { initialTodos?: Item[] }) => {
   const [todoList, updateTodoList] = useImmer(initialTodos);
   const [text, updateText] = useState("");
@@ -84,7 +13,7 @@ export const TodoList = ({ initialTodos = [] }: { initialTodos?: Item[] }) => {
     // handle ssr prefetch data
     if (todoList.length === 0) {
       const result = await fetchList();
-      updateTodoList(draft => result);
+      updateTodoList(() => result);
     }
   }, []);
   const filterdList = useMemo(() => {

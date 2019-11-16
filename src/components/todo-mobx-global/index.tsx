@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { uuid } from "uuidv4";
-import { filter, FILTERTYPE, Todo, Filter } from "../todo-hook";
 import { observer, useComputed } from "mobx-react-lite";
 import { storeContext } from "../../store/root";
+import { FILTERTYPE, filter, Todo, Filter, RichTodo } from "../../components/helpers";
 
 export const TodoList = observer(() => {
   const { todoStore } = useContext(storeContext);
@@ -26,7 +26,7 @@ export const TodoList = observer(() => {
       <input value={text} onChange={e => updateText(e.target.value)}></input>
       <div>
         {filteredList.map(x => (
-          <Todo item={x} onClick={todoStore.toggledone} key={x.id} />
+          <RichTodo item={x} key={x.id} />
         ))}
       </div>
       <Filter type={filterType} handleSetType={updateFilterType} />
