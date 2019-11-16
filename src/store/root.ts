@@ -1,6 +1,5 @@
 import { createContext } from "react";
 import { TodoStore } from "./todo.store";
-
 class RootStore {
   todoStore: TodoStore;
   constructor() {

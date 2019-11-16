@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { uuid } from "uuidv4";
 import { observer, useComputed } from "mobx-react-lite";
 import { storeContext } from "../../store/root";
@@ -6,6 +6,9 @@ import { FILTERTYPE, filter, Filter, RichTodo } from "../../components/helpers";
 
 export const TodoList = observer(() => {
   const { todoStore } = useContext(storeContext);
+  useEffect(() => {
+    console.log("todoStore", todoStore);
+  }, []);
   const [text, updateText] = useState(""); // 临时ui状态不用放store
   const [filterType, updateFilterType] = useState(FILTERTYPE.ALL);
   const filteredList = useComputed(() => {
