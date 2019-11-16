@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { uuid } from "uuidv4";
-import { fetchDetail, fetchList } from "../service/todo";
-import { filter, FILTERTYPE, Todo, Filter } from "./todo-hook";
+import { fetchDetail, fetchList } from "../../service/todo";
+import { filter, FILTERTYPE, Todo, Filter } from "../todo-hook";
 import { toJS } from "mobx";
 import {
   observer,

@@ -1,11 +1,13 @@
 import { TodoList as TodoListHook } from "./components/todo-hook";
-import { TodoList as TodoListMobx } from "./components/todo-mobx-lite";
+import { TodoList as TodoListLocal } from "./components/todo-mobx-local";
+import { TodoList as TodoListGlobal } from "./components/todo-mobx-global";
 import React from "react";
 import ReactDOM from "react-dom";
 const App = () => {
   return (
     <div>
-      <TodoListMobx />
+      <TodoListGlobal />
+      <TodoListLocal />
       <TodoListHook />
     </div>
   );

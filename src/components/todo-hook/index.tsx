@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useImmer } from "use-immer";
 import { useMount, useAsync } from "react-use";
-import { fetchDetail, fetchList } from "../service/todo";
+import { fetchDetail, fetchList } from "../../service/todo";
 import { uuid } from "uuidv4";
 import styled from "styled-components";
 const TodoX = styled.div<{ done: boolean }>`
