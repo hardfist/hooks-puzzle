@@ -12,7 +12,7 @@ import { useAsync } from "react-use";
 // 业务模型
 const model = (initialTodoList: Item[] = []) => ({
   todoList: initialTodoList,
-  toggle(id: string, x: Item) {
+  toggle(id: string) {
     this.todoList
       .filter(x => x.id === id)
       .forEach(x => {
@@ -56,7 +56,9 @@ export const TodoList = observer(
         <div>
           {loading && <div>loading....</div>}
           {!loading &&
-            filteredList.map(x => <Todo item={x} onClick={store.toggle} />)}
+            filteredList.map(x => (
+              <Todo item={x} onClick={store.toggle} key={x.id} />
+            ))}
         </div>
         <Filter type={filterType} handleSetType={updateFilterType} />
       </form>

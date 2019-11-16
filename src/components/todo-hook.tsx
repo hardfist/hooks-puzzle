@@ -113,7 +113,8 @@ export const TodoList = ({ initialTodos = [] }: { initialTodos?: Item[] }) => {
       <input value={text} onChange={e => updateText(e.target.value)}></input>
       <div>
         {loading && <div>loading....</div>}
-        {!loading && filterdList.map(x => <Todo item={x} onClick={toggle} />)}
+        {!loading &&
+          filterdList.map(x => <Todo item={x} onClick={toggle} key={x.id} />)}
       </div>
       <Filter type={filterType} handleSetType={updateFilterType} />
     </form>
