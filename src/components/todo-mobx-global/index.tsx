@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { uuid } from "uuidv4";
 import { observer } from "mobx-react";
 import { storeContext } from "../../store/root";

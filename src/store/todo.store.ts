@@ -1,6 +1,7 @@
 import { observable } from "mobx";
 import { uuid } from "uuidv4";
 import { computedFn } from "mobx-utils";
+import { fetchList } from "../service/todo";
 
 export class TodoModel {
   @observable id: string;
@@ -37,6 +38,13 @@ export class TodoStore {
       }
     });
   };
+  async fetchTodo() {
+    const result = await fetchList();
+    result.forEach(x => {
+      this.todos.push(new TodoModel(x));
+    });
+    return result;
+  }
   filteredTodos = computedFn(function(
     this: TodoStore,
     pred: (x: TodoModel) => boolean

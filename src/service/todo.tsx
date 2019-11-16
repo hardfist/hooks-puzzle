@@ -1,7 +1,7 @@
 import delay from "delay";
 import { uuid } from "uuidv4";
 export const fetchList = async (): Promise<Item[]> => {
-  await delay(2000);
+  await delay(4000);
   return [
     {
       text: "react is good",
@@ -16,7 +16,7 @@ export const fetchList = async (): Promise<Item[]> => {
   ];
 };
 export const fetchDetail = async (id: string): Promise<Description> => {
-  await delay(1000);
+  await delay(2000);
   return {
     id,
     description: `you are ${id}`
