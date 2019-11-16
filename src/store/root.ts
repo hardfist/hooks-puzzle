@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { TodoStore } from "../components/todo-mobx-global/todo.store";
+import { TodoStore } from "./todo.store";
 
 class RootStore {
   todoStore: TodoStore;
