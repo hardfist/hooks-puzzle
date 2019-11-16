@@ -24,8 +24,6 @@
     "eslint-plugin-react": "7.x",
     "eslint-plugin-react-hooks": "1.x",
     "parcel": "^1.12.4",
-    "parcel-bundler": "^1.12.4",
-    "parcel-plugin-eslint": "^1.0.8-2",
     "typescript": "^3.7.2"
   },
   "dependencies": {
@@ -38,6 +36,7 @@
     "immer": "^5.0.0",
     "mobx": "^5.15.0",
     "mobx-react": "^6.1.4",
+    "mobx-utils": "^5.5.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-use": "^13.8.0",

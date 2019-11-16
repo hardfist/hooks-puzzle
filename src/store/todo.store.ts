@@ -1,5 +1,6 @@
 import { observable } from "mobx";
 import { uuid } from "uuidv4";
+import { computedFn } from "mobx-utils";
 
 export class TodoModel {
   @observable id: string;
@@ -36,6 +37,12 @@ export class TodoStore {
       }
     });
   };
+  filteredTodos = computedFn(function(
+    this: TodoStore,
+    pred: (x: TodoModel) => boolean
+  ) {
+    return this.todos.filter(x => pred(x));
+  });
   deleteTodo = (id: string) => {
     const updatedTodos = this.todos.filter(todo => todo.id !== id);
     this.todos = updatedTodos;
