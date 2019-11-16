@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useImmer } from "use-immer";
+import { useMount, useAsync } from "react-use";
+import { fetchDetail, fetchList } from "../service/todo";
 import { uuid } from "uuidv4";
 import styled from "styled-components";
 const TodoX = styled.div<{ completed: boolean }>`
@@ -17,11 +19,6 @@ const enum FILTERTYPE {
   ACTIVE = "ACTIVE",
   COMPLETED = "COMPLETED"
 }
-interface Item {
-  text: string;
-  completed: boolean;
-  id: string;
-}
 const Todo = ({
   item,
   onClick
@@ -29,9 +26,17 @@ const Todo = ({
   item: Item;
   onClick: (id: string) => void;
 }) => {
+  const desc = useAsync<Description>(async () => {
+    return fetchDetail(item.id);
+  }, []);
   return (
     <TodoX onClick={() => onClick(item.id)} completed={item.completed}>
-      {item.text}
+      {item.text} :{" "}
+      {desc.loading
+        ? "loading ...."
+        : desc.error
+        ? "error"
+        : desc.value?.description}
     </TodoX>
   );
 };
@@ -58,10 +63,14 @@ const Filter = ({
     </FilterWrapper>
   );
 };
-export const TodoList = ({ defaultValue = [] }: { defaultValue?: Item[] }) => {
-  const [todoList, updateTodoList] = useImmer(defaultValue);
+export const TodoList = () => {
+  const [todoList, updateTodoList] = useImmer([] as Item[]);
   const [text, updateText] = useState("");
   const [filterType, updateFilterType] = useState(FILTERTYPE.ALL);
+  const { loading } = useAsync(async () => {
+    const result = await fetchList();
+    updateTodoList(draft => result);
+  }, []);
   const filterdList = useMemo(() => {
     return todoList.filter(x => {
       switch (filterType) {
@@ -98,9 +107,8 @@ export const TodoList = ({ defaultValue = [] }: { defaultValue?: Item[] }) => {
     >
       <input value={text} onChange={e => updateText(e.target.value)}></input>
       <div>
-        {filterdList.map(x => (
-          <Todo item={x} onClick={toggle} />
-        ))}
+        {loading && <div>loading....</div>}
+        {!loading && filterdList.map(x => <Todo item={x} onClick={toggle} />)}
       </div>
       <Filter type={filterType} handleSetType={updateFilterType} />
     </form>

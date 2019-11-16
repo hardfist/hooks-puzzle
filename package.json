@@ -6,8 +6,11 @@
   "author": "hardfist <1562502418@qq.com>",
   "license": "MIT",
   "scripts": {
-    "start": "parcel start"
+    "start": "parcel start public/index.html"
   },
+  "browserslist": [
+    "last 1 Chrome versions"
+  ],
   "devDependencies": {
     "parcel": "^1.12.4",
     "typescript": "^3.7.2"
@@ -17,12 +20,14 @@
     "@types/react-dom": "^16.9.4",
     "@types/styled-components": "^4.4.0",
     "antd": "^3.25.1",
+    "delay": "^4.3.0",
     "immer": "^5.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-use": "^13.8.0",
+    "service": "^0.1.4",
     "styled-components": "^4.4.1",
     "use-immer": "^0.3.5",
-    "uuid": "^3.3.3",
     "uuidv4": "^6.0.0"
   }
 }
