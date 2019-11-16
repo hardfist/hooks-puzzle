@@ -6,12 +6,12 @@ export const fetchList = async (): Promise<Item[]> => {
     {
       text: "react is good",
       id: uuid(),
-      completed: false
+      done: false
     },
     {
       text: "mobx is awesome",
       id: uuid(),
-      completed: true
+      done: true
     }
   ];
 };

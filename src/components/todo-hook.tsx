@@ -4,11 +4,11 @@ import { useMount, useAsync } from "react-use";
 import { fetchDetail, fetchList } from "../service/todo";
 import { uuid } from "uuidv4";
 import styled from "styled-components";
-const TodoX = styled.div<{ completed: boolean }>`
+const TodoX = styled.div<{ done: boolean }>`
   cursor: pointer;
   font-size: 16px;
   margin-top: 5px;
-  text-decoration: ${p => (p.completed ? "line-through" : "none")};
+  text-decoration: ${p => (p.done ? "line-through" : "none")};
 `;
 const FilterWrapper = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ const FilterItem = styled.div<{ selected: boolean }>`
 export const enum FILTERTYPE {
   ALL = "ALL",
   ACTIVE = "ACTIVE",
-  COMPLETED = "COMPLETED"
+  done = "done"
 }
 export const Todo = ({
   item,
@@ -33,7 +33,7 @@ export const Todo = ({
     return fetchDetail(item.id);
   }, []);
   return (
-    <TodoX onClick={() => onClick(item.id)} completed={item.completed}>
+    <TodoX onClick={() => onClick(item.id)} done={item.done}>
       {item.text} :{" "}
       {desc.loading
         ? "loading ...."
@@ -61,7 +61,7 @@ export const Filter = ({
   return (
     <FilterWrapper>
       {Item(FILTERTYPE.ALL)}
-      {Item(FILTERTYPE.COMPLETED)}
+      {Item(FILTERTYPE.done)}
       {Item(FILTERTYPE.ACTIVE)}
     </FilterWrapper>
   );
@@ -71,9 +71,9 @@ export const filter = (filterType: FILTERTYPE) => (x: Item) => {
     case FILTERTYPE.ALL:
       return true;
     case FILTERTYPE.ACTIVE:
-      return !x.completed;
-    case FILTERTYPE.COMPLETED:
-      return x.completed;
+      return !x.done;
+    case FILTERTYPE.done:
+      return x.done;
   }
 };
 export const TodoList = ({ initialTodos = [] }: { initialTodos?: Item[] }) => {
@@ -95,7 +95,7 @@ export const TodoList = ({ initialTodos = [] }: { initialTodos?: Item[] }) => {
       draft
         .filter(x => x.id === id)
         .forEach(x => {
-          x.completed = !x.completed;
+          x.done = !x.done;
         });
     });
   };
@@ -106,7 +106,7 @@ export const TodoList = ({ initialTodos = [] }: { initialTodos?: Item[] }) => {
         updateTodoList(draft => {
           draft.push({
             text,
-            completed: false,
+            done: false,
             id: uuid()
           });
         });

@@ -17,7 +17,7 @@ const model = (initialTodoList: Item[] = []) => ({
     this.todoList
       .filter(x => x.id === id)
       .forEach(x => {
-        x.completed = !x.completed;
+        x.done = !x.done;
       });
   },
   async fetchTodoList() {
@@ -27,7 +27,7 @@ const model = (initialTodoList: Item[] = []) => ({
   addTodo(text: string) {
     this.todoList.push({
       text,
-      completed: false,
+      done: false,
       id: uuid()
     });
   }

@@ -4,7 +4,7 @@ interface Window {
 
 declare interface Item {
   text: string;
-  completed: boolean;
+  done: boolean;
   id: string;
 }
 
