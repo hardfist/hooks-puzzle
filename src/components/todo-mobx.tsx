@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { uuid } from "uuidv4";
 import { fetchDetail, fetchList } from "../service/todo";
 import { filter, FILTERTYPE, Todo, Filter } from "./todo-hook";
+import { toJS } from "mobx";
 import {
   observer,
   useComputed,
@@ -38,11 +39,14 @@ export const TodoList = observer(
     const filteredList = useComputed(() => {
       return store.todoList.filter(filter(filterType));
     }, [filterType]);
+    // 很神奇，加了这行打印就没问题了
+    console.log("x:", toJS(filteredList), toJS(store.todoList));
     const { loading } = useAsync(async () => {
       if (!store.todoList.length) {
         return store.fetchTodoList();
       }
     });
+
     const [text, updateText] = useState("");
     return (
       <form
