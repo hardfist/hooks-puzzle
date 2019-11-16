@@ -14,12 +14,12 @@ const FilterItem = styled.div<{ selected: boolean }>`
   border: 1px solid transparent;
   border-color: ${p => (p.selected ? "red" : "transparent")};
 `;
-const enum FILTERTYPE {
+export const enum FILTERTYPE {
   ALL = "ALL",
   ACTIVE = "ACTIVE",
   COMPLETED = "COMPLETED"
 }
-const Todo = ({
+export const Todo = ({
   item,
   onClick
 }: {
@@ -40,7 +40,7 @@ const Todo = ({
     </TodoX>
   );
 };
-const Filter = ({
+export const Filter = ({
   type,
   handleSetType
 }: {
@@ -63,25 +63,29 @@ const Filter = ({
     </FilterWrapper>
   );
 };
-export const TodoList = () => {
-  const [todoList, updateTodoList] = useImmer([] as Item[]);
+export const filter = (filterType: FILTERTYPE) => (x: Item) => {
+  switch (filterType) {
+    case FILTERTYPE.ALL:
+      return true;
+    case FILTERTYPE.ACTIVE:
+      return !x.completed;
+    case FILTERTYPE.COMPLETED:
+      return x.completed;
+  }
+};
+export const TodoList = ({ initialTodos = [] }: { initialTodos?: Item[] }) => {
+  const [todoList, updateTodoList] = useImmer(initialTodos);
   const [text, updateText] = useState("");
   const [filterType, updateFilterType] = useState(FILTERTYPE.ALL);
   const { loading } = useAsync(async () => {
-    const result = await fetchList();
-    updateTodoList(draft => result);
+    // handle ssr prefetch data
+    if (todoList.length === 0) {
+      const result = await fetchList();
+      updateTodoList(draft => result);
+    }
   }, []);
   const filterdList = useMemo(() => {
-    return todoList.filter(x => {
-      switch (filterType) {
-        case FILTERTYPE.ALL:
-          return true;
-        case FILTERTYPE.ACTIVE:
-          return !x.completed;
-        case FILTERTYPE.COMPLETED:
-          return x.completed;
-      }
-    });
+    return todoList.filter(filter(filterType));
   }, [todoList, filterType]);
   const toggle = (id: string) => {
     updateTodoList(draft => {
@@ -105,6 +109,7 @@ export const TodoList = () => {
         });
       }}
     >
+      <h1>todomvc hook版 </h1>
       <input value={text} onChange={e => updateText(e.target.value)}></input>
       <div>
         {loading && <div>loading....</div>}
