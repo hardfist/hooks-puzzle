@@ -1,5 +1,5 @@
 import { TodoList as TodoListHook } from "./components/todo-hook";
-import { TodoList as TodoListMobx } from "./components/todo-mobx";
+import { TodoList as TodoListMobx } from "./components/todo-mobx-lite";
 import React from "react";
 import ReactDOM from "react-dom";
 const App = () => {
