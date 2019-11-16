@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { uuid } from "uuidv4";
 
-import { TodoStore } from "../../store/todo.store";
+import { TodoStore, TodoStore2, TodoStore3 } from "../../store/todo.store";
 import { observer, useComputed, useLocalStore } from "mobx-react-lite";
-import { FILTERTYPE, filter, Filter, RichTodo } from "../../components/helpers";
+import {
+  FILTERTYPE,
+  filter,
+  Filter,
+  RichTodo,
+  Todo
+} from "../../components/helpers";
 
 export const TodoList = observer(() => {
-  const store = useLocalStore(() => new TodoStore());
+  const store = useLocalStore(() => new TodoStore3());
   const [filterType, updateFilterType] = useState(FILTERTYPE.ALL);
   const filteredList = useComputed(() => {
     return store.todos.filter(filter(filterType));
@@ -27,7 +33,7 @@ export const TodoList = observer(() => {
       <input value={text} onChange={e => updateText(e.target.value)}></input>
       <div>
         {filteredList.map(x => (
-          <RichTodo item={x} key={x.id} />
+          <Todo item={x} key={x.id} onClick={() => store.toggle(x.id)} />
         ))}
       </div>
       <Filter type={filterType} handleSetType={updateFilterType} />
