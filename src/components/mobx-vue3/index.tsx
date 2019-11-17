@@ -2,6 +2,7 @@ import { observable, autorun, runInAction } from "mobx";
 import { useMount } from "react-use";
 import React, { useState } from "react";
 import { observer } from "mobx-react";
+import { debounce } from "lodash";
 
 export function useMousePosition() {
   const [pos] = useState(
@@ -10,15 +11,12 @@ export function useMousePosition() {
       y: 0
     })
   );
-  function update(e: MouseEvent) {
+  const update = debounce((e: MouseEvent) => {
     runInAction(() => {
       pos.x = e.pageX;
       pos.y = e.pageY;
     });
-  }
-  autorun(() => {
-    console.log("pos.x:", pos.x);
-  });
+  }, 100);
   useMount(() => {
     window.addEventListener("mousemove", update);
     return () => {

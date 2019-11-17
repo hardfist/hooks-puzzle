@@ -1,6 +1,6 @@
 import { observable, action, flow } from "mobx";
 import { uuid } from "uuidv4";
-import { computedFn, actionAsync } from "mobx-utils";
+import { computedFn, actionAsync, task } from "mobx-utils";
 import { fetchList } from "../service/todo";
 
 export class TodoModel {
@@ -40,7 +40,7 @@ export class TodoStore {
     });
   };
   fetchTodo = actionAsync(async function(this: TodoStore) {
-    const result = await fetchList();
+    const result = await task(fetchList());
     result.forEach(x => {
       this.todos.push(new TodoModel(x));
     });
