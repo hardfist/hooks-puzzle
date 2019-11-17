@@ -1,4 +1,4 @@
-import { observable, runInAction, action } from "mobx";
+import { observable, runInAction, action, flow } from "mobx";
 import { uuid } from "uuidv4";
 import { computedFn } from "mobx-utils";
 import { fetchList } from "../service/todo";
@@ -39,16 +39,13 @@ export class TodoStore {
       }
     });
   };
-  @action
-  async fetchTodo() {
-    const result = await fetchList();
+  fetchTodo = flow(function*(this: TodoStore) {
+    const result: Item[] = yield fetchList();
     result.forEach(x => {
-      runInAction(() => {
-        this.todos.push(new TodoModel(x));
-      });
+      this.todos.push(new TodoModel(x));
     });
     return result;
-  }
+  });
   @action filteredTodos = computedFn(function(
     this: TodoStore,
     pred: (x: TodoModel) => boolean
