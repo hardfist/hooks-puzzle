@@ -1,4 +1,4 @@
-import { observable, autorun, runInAction } from "mobx";
+import { observable, autorun, runInAction, toJS } from "mobx";
 import { useMount } from "react-use";
 import React, { useState } from "react";
 import { observer } from "mobx-react";
@@ -15,6 +15,7 @@ export function useMousePosition() {
     runInAction(() => {
       pos.x = e.pageX;
       pos.y = e.pageY;
+      console.log("x:", toJS(pos));
     });
   }, 100);
   useMount(() => {
