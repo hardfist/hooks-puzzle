@@ -1,6 +1,7 @@
-import { observable, autorun, runInAction, toJS } from "mobx";
+import { observable, runInAction, toJS, observe, autorun } from "mobx";
 import { useMount } from "react-use";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { fetchList } from "../../service/todo";
 import { observer } from "mobx-react";
 import { debounce } from "lodash";
 
@@ -27,13 +28,36 @@ export function useMousePosition() {
 
   return pos;
 }
+function useFetch(id: string) {
+  const [state] = useState(
+    observable<{
+      isLoading: boolean;
+      post?: Item[];
+    }>({
+      isLoading: true
+    })
+  );
+  useEffect(() => {
+    const fetchData = async () => {
+      state.isLoading = true;
+      state.post = await fetchList();
+      state.isLoading = false;
+    };
+    fetchData();
+  }, [id]);
+  return state;
+}
 
 export const Mouse = observer(() => {
   const pos = useMousePosition();
+  const result = useFetch("1");
+  console.log("result:", result);
   return (
     <div>
       x: {pos.x}
       y: {pos.y}
+      {result.isLoading && <div>....loading</div>}
+      {result.post && result.post.map(x => x.text)}
     </div>
   );
 });

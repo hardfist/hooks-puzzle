@@ -6,9 +6,6 @@ import { Mouse } from "./components/mobx-vue3";
 import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
-configure({
-  enforceActions: "always"
-});
 const Row = styled.div`
   display: flex;
   width: 100%;
