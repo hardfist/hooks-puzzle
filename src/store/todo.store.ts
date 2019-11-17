@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { observable, runInAction, action } from "mobx";
 import { uuid } from "uuidv4";
 import { computedFn } from "mobx-utils";
 import { fetchList } from "../service/todo";
@@ -21,6 +21,7 @@ export class TodoModel {
       this.done = item.done;
     }
   }
+  @action
   toggleDone() {
     this.done = !this.done;
   }
@@ -28,30 +29,33 @@ export class TodoModel {
 
 export class TodoStore {
   @observable todos: TodoModel[] = [];
-  addTodo = (todo: Item) => {
+  @action addTodo = (todo: Item) => {
     this.todos.push(new TodoModel(todo));
   };
-  toggle = (id: string) => {
+  @action toggle = (id: string) => {
     this.todos.forEach(x => {
       if (x.id === id) {
         x.toggleDone();
       }
     });
   };
+  @action
   async fetchTodo() {
     const result = await fetchList();
     result.forEach(x => {
-      this.todos.push(new TodoModel(x));
+      runInAction(() => {
+        this.todos.push(new TodoModel(x));
+      });
     });
     return result;
   }
-  filteredTodos = computedFn(function(
+  @action filteredTodos = computedFn(function(
     this: TodoStore,
     pred: (x: TodoModel) => boolean
   ) {
     return this.todos.filter(x => pred(x));
   });
-  deleteTodo = (id: string) => {
+  @action deleteTodo = (id: string) => {
     const updatedTodos = this.todos.filter(todo => todo.id !== id);
     this.todos = updatedTodos;
   };

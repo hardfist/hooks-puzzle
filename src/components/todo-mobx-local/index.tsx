@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import { runInAction } from "mobx";
 import { TodoStore } from "../../store/todo.store";
 import { useMount, useAsync } from "react-use";
 import { observer } from "mobx-react";
 import { FILTERTYPE, Filter, RichTodo, filter } from "../../components/helpers";
 import { uuid } from "uuidv4";
 export const TodoList = observer(() => {
-  const [store] = useState(new TodoStore());
+  let todoStore!: TodoStore;
+  runInAction(() => {
+    todoStore = new TodoStore();
+  });
+  const [store] = useState(todoStore);
 
   const [filterType, updateFilterType] = useState(FILTERTYPE.ALL);
   const filteredTodos = store.filteredTodos(filter(filterType));

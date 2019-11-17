@@ -1,4 +1,4 @@
-import { observable, autorun } from "mobx";
+import { observable, autorun, runInAction } from "mobx";
 import { useMount } from "react-use";
 import React, { useState } from "react";
 import { observer } from "mobx-react";
@@ -11,8 +11,10 @@ export function useMousePosition() {
     })
   );
   function update(e: MouseEvent) {
-    pos.x = e.pageX;
-    pos.y = e.pageY;
+    runInAction(() => {
+      pos.x = e.pageX;
+      pos.y = e.pageY;
+    });
   }
   autorun(() => {
     console.log("pos.x:", pos.x);
