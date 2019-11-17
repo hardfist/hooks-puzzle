@@ -1,5 +1,6 @@
 import { observable, runInAction, toJS, computed } from "mobx";
 import { useMount } from "react-use";
+import { expr } from "mobx-utils";
 import React, { useState, useEffect } from "react";
 import { fetchList } from "../../service/todo";
 import { observer } from "mobx-react";
@@ -19,7 +20,7 @@ export function useMousePosition() {
       console.log("x:", toJS(pos));
     });
   }, 100);
-  const doublePos = computed(() => {
+  const doublePos = expr(() => {
     return {
       x: pos.x * 2,
       y: pos.y * 2
@@ -33,7 +34,7 @@ export function useMousePosition() {
     };
   });
 
-  return { pos, doublePos: doublePos.get() };
+  return { pos, doublePos: doublePos };
 }
 function useFetch(id: string) {
   const [state] = useState(

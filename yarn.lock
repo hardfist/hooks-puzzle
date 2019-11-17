@@ -4180,7 +4180,7 @@ mobx-react@^6.1.4:
 
 mobx-utils@^5.5.2:
   version "5.5.2"
-  resolved "https://registry.npm.taobao.org/mobx-utils/download/mobx-utils-5.5.2.tgz#3d3230067f14e9315559d2bfd31d86ec2e8999f0"
+  resolved "http://bnpm.byted.org/mobx-utils/download/mobx-utils-5.5.2.tgz#3d3230067f14e9315559d2bfd31d86ec2e8999f0"
   integrity sha1-PTIwBn8U6TFVWdK/0x2G7C6JmfA=
 
 mobx@^5.15.0:
