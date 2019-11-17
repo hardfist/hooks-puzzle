@@ -1,4 +1,4 @@
-import { observable, runInAction, toJS, observe, autorun } from "mobx";
+import { observable, runInAction, toJS, computed } from "mobx";
 import { useMount } from "react-use";
 import React, { useState, useEffect } from "react";
 import { fetchList } from "../../service/todo";
@@ -19,6 +19,13 @@ export function useMousePosition() {
       console.log("x:", toJS(pos));
     });
   }, 100);
+  const doublePos = computed(() => {
+    return {
+      x: pos.x * 2,
+      y: pos.y * 2
+    };
+  });
+
   useMount(() => {
     window.addEventListener("mousemove", update);
     return () => {
@@ -26,7 +33,7 @@ export function useMousePosition() {
     };
   });
 
-  return pos;
+  return { pos, doublePos: doublePos.get() };
 }
 function useFetch(id: string) {
   const [state] = useState(
@@ -49,13 +56,15 @@ function useFetch(id: string) {
 }
 
 export const Mouse = observer(() => {
-  const pos = useMousePosition();
+  const { pos, doublePos } = useMousePosition();
   const result = useFetch("1");
   console.log("result:", result);
   return (
     <div>
-      x: {pos.x}
-      y: {pos.y}
+      x: {pos.x} y: {pos.y}
+      <br />
+      2x: {doublePos.x}
+      2y: {doublePos.y}
       {result.isLoading && <div>....loading</div>}
       {result.post && result.post.map(x => x.text)}
     </div>
